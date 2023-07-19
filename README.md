@@ -21,12 +21,10 @@ composer global require laravel/installer
 ```bash
 composer install
 ```
-
 1. Rename or copy `.env.example` file to `.env`
 ```bash
 php artisan key:generate
 ```
-
 1. Set your DB_CONNECTION in your `.env` file to `sqlite`
 1. `php artisan serve` or use Laravel Valet or Laravel Homestead
 1. Visit `localhost:8000` in your browser
