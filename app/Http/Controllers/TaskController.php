@@ -30,8 +30,8 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $task = new Task();
-        $task->title = $request->input('title');
-        $task->description = $request->input('description');
+        $task->title = $request->title;
+        $task->description = $request->description;
         $task->save();
 
         return response()->json($task, 201);
@@ -50,7 +50,8 @@ class TaskController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        return response()->json($task);
     }
 
     /**
@@ -59,8 +60,8 @@ class TaskController extends Controller
     public function update(Request $request, string $id)
     {
         $task = Task::findOrFail($id);
-        $task->title = $request->input('title');
-        $task->description = $request->input('description');
+        $task->title = $request->title;
+        $task->description = $request->description;
         $task->save();
 
         return response()->json($task);
