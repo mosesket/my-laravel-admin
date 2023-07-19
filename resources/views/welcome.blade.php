@@ -17,7 +17,7 @@
         crossorigin="anonymous"></script>
 
     <!--  custom CSS -->
-    <link rel="stylesheet" href="css/mystyle.css">
+    <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
 </head>
 
 <body>
