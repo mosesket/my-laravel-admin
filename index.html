@@ -16,24 +16,8 @@
         integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
         crossorigin="anonymous"></script>
 
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
-
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .content {
-            flex: 1 0 50vh;
-            max-height: 100%;
-            overflow-y: auto;
-        }
-    </style>
+    <!--  custom CSS -->
+    <link rel="stylesheet" href="css/mystyle.css">
 </head>
 
 <body>
@@ -72,7 +56,6 @@
         </nav>
 
         <div class="container mt-4">
-            <h1>Laravel Admin</h1>
             <h1>Welcome to the Admin System</h1>
             <p>
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis explicabo, laudantium placeat sed,
@@ -115,14 +98,87 @@
                             <td>Task 1</td>
                             <td>Description 1</td>
                             <td>
-                                <button type="button" class="btn btn-primary">Edit</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#editModal">Edit</button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#deleteModal">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Task 2</td>
+                            <td>Description 2</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#editModal">Edit</button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#deleteModal">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Task 3</td>
+                            <td>Description 3</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#editModal">Edit</button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#deleteModal">Delete</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </section>
 
+            <!-- Edit Task Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Task</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="#">
+                                <div class="form-group">
+                                    <label for="edit_task_name">Task Name</label>
+                                    <input type="text" class="form-control" id="edit_task_name" name="edit_task_name"
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit_task_description">Task Description</label>
+                                    <textarea class="form-control" id="edit_task_description"
+                                        name="edit_task_description" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Task</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Task Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Delete Task</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this task?</p>
+                            <form method="POST" action="#">
+                                <button type="submit" class="btn btn-danger">Delete Task</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
