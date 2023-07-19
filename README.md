@@ -17,14 +17,18 @@ composer global require laravel/installer
 
 ## Installation  the project
 
-1. Clone this repo and `cd` into it
+Clone this repo and `cd` into it
 ```bash
 composer install
 ```
-1. Rename or copy `.env.example` file to `.env`
+
+Rename or copy `.env.example` file to `.env`
 ```bash
 php artisan key:generate
 ```
-1. Set your DB_CONNECTION in your `.env` file to `sqlite`
-1. `php artisan serve` or use Laravel Valet or Laravel Homestead
-1. Visit `localhost:8000` in your browser
+
+Set your DB_CONNECTION in your `.env` file to `sqlite`
+
+`php artisan serve` or use Laravel Valet or Laravel Homestead
+
+Visit `localhost:8000` in your browser
