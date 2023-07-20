@@ -1,7 +1,12 @@
 # my-laravel-admin
 
-Use Bootstrap 4 to create a beautiful admin system
-first I create an index.html and build boostrap to beautify the page
+Using Bootstrap 4 to create a beautiful admin system, ajax and laravel to perform crude operations
+
+Laravel Bootstrap Ajax-based admin system a user-friendly interface with a navbar that allows administrators to efficiently manage tasks asynchronously. Through Ajax interactions, administrators can create, read, update, and delete tasks dynamically without page reloads. The system utilizes Bootstrap for responsive design, while error handling ensures a stable and secure environment. The admin system comprises sections for creating tasks, listing existing tasks, editing tasks through modals, and deleting tasks with confirmation. 
+
+# Website Demo
+
+Website Demo: [https://lara-ajax-admin.programmersmage.com/](https://lara-ajax-admin.programmersmage.com/). 
 
 ## Install Laravel
 

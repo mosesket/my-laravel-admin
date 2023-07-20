@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel Admin System</title>
+    <title>Laravel Bootstrap Ajax Admin System</title>
     <!-- import jquery from their website -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- import bootstrap from their website -->
@@ -24,21 +24,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">All Tasks</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdownMenu" data-toggle="dropdown">Tasks</a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        <a class="dropdown-item" href="#">Cretae Task</a>
+                        <a class="dropdown-item" href="#">Create Task</a>
                     </div>
                 </li>
             </ul>
 
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown">
-                        <i class="fas fa-user"></i> Username
+                    <a class="nav-link d-flex" href="#" id="userDropdown" data-toggle="dropdown">
+                        <div class="user-avatar">
+                            <img src="{{ asset('images/profile.png') }}" alt="User Image">
+                        </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="#">Profile</a>
@@ -50,14 +49,28 @@
             </ul>
         </nav>
 
+        <!-- Pass the CSRF token to the JavaScript file using a data attribute -->
+        <div id="csrf-token" data-token="{{ csrf_token() }}"></div>
+
         <div class="container mt-4">
-            <h1>Welcome to the Admin System</h1>
+            <h1>Welcome to the Laravel Bootstrap Ajax Admin System</h1>
             <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis explicabo, laudantium placeat sed,
-                quaerat,
-                voluptatem qui saepe facilis consequuntur numquam voluptate ab exercitationem! Eaque debitis doloremque,
-                similique tempore magnam veritatis.
+                Laravel Bootstrap Ajax-based admin system a user-friendly interface with a navbar that allows administrators to efficiently
+                manage tasks asynchronously. Through Ajax interactions, administrators can create, read, update, and delete tasks
+                dynamically without page reloads. The system utilizes Bootstrap for responsive design, while error handling ensures
+                a stable and secure environment. The admin system comprises sections for creating tasks, listing existing tasks,
+                editing tasks through modals, and deleting tasks with confirmation.
             </p>
+
+            <!-- Success and Error Messages -->
+            <div class="mt-4">
+                <div id="success-alert" class="alert alert-success d-none" role="alert">
+                    Task operation successful!
+                </div>
+                <div id="error-alert" class="alert alert-danger d-none" role="alert">
+                    Oops! Something went wrong. Please try again.
+                </div>
+            </div>
 
             <!-- Create Task  -->
             <section class="pb-5">
@@ -103,6 +116,11 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <!-- Update Task Error Message -->
+                            <div class="alert alert-danger d-none" id="update-error-alert" role="alert">
+                                Oops! Something went wrong. Please try again.
+                            </div>
+
                             <div class="form-group">
                                 <label for="edit_task_name">Task Name</label>
                                 <input type="text" class="form-control" id="edit_task_name" name="edit_task_name" required>
@@ -141,179 +159,15 @@
 
     <footer class="bg-light py-3 text-center">
         <div class="container">
-            <p>Laravel Admin System &copy; 2023. All rights reserved.</p>
+            <p>Designed by <a href="https://github.com/mosesket">Moses  Ketuojo</a> &copy; 2023. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        var csrfToken = '{{ csrf_token() }}';
-        function fetchTasks() {
-            $.ajax({
-                url: '/tasks',
-                method: 'GET',
-                success: function(response) {
-                    // Update the task table in the UI
-                    var tasks = response;
-                    var taskItems = $('#task-items');
-                    taskItems.empty();
-
-                    $.each(tasks, function(index, task) {
-                        var row = '<tr>' +
-                            '<td>' + task.title + '</td>' +
-                            '<td>' + task.description + '</td>' +
-                            '<td>' +
-                            '<button type="button" class="btn btn-primary edit-btn" data-task-id="' + task.id + '" data-toggle="modal" data-target="#editModal">Edit</button>' +
-                            '<button type="button" class="btn btn-danger delete-btn" data-task-id="' + task.id + '" data-toggle="modal" data-target="#deleteModal">Delete</button>' +
-                            '</td>' +
-                            '</tr>';
-                        taskItems.append(row);
-                    });
-
-                    // Bind edit button events
-                    $('.edit-btn').click(function() {
-                        selectedTaskId = $(this).data('task-id');
-                        // Fetch task details and populate the edit modal
-                        fetchTaskDetails(selectedTaskId);
-                    });
-
-                    // Bind delete button events
-                    $('.delete-btn').click(function() {
-                        selectedTaskId = $(this).data('task-id');
-                    });
-                },
-
-                error: function(error) {
-                    // Handle error response
-                    console.log('Error:', error);
-                }
-            });
-        }
-
-        function fetchTaskDetails(taskId) {
-            $.ajax({
-                url: '/tasks/' + taskId,
-                method: 'GET',
-                success: function(response) {
-                    // Populate the edit modal with task details
-                    $('#edit_task_name').val(response.title);
-                    $('#edit_task_description').val(response.description);
-                },
-                error: function(error) {
-                    // Handle error response
-                    console.log(taskId);
-                    console.log('Error from fetch task:', error);
-                }
-            });
-        }
-
-        // Function to create a new task
-        function createTask() {
-            var title = $('#title').val();
-            var description = $('#description').val();
-
-            $.ajax({
-            url: '/tasks',
-            method: 'POST',
-            data: {
-                _token: csrfToken,
-                title: title,
-                description: description
-            },
-            success: function(response) {
-                // Handle success response
-                console.log('Task created successfully:', response);
-
-                // Reset inputs
-                $('#title').val('');
-                $('#description').val('');
-
-                // Fetch updated task list
-                fetchTasks();
-            },
-            error: function(error) {
-                // error response
-                console.log('Error:', error);
-            }
-            });
-        }
-
-        function updateTask() {
-            var title = $('#edit_task_name').val();
-            var description = $('#edit_task_description').val();
-
-            $.ajax({
-                url: '/tasks/' + selectedTaskId,
-                method: 'PUT',
-                data: {
-                    _token: csrfToken,
-                    title: title,
-                    description: description
-                },
-                success: function(response) {
-                    // Handle success response
-                    console.log('Task updated successfully:', response);
-
-                    // Reset inputs
-                    $('#edit_task_name').val('');
-                    $('#edit_task_description').val('');
-
-                    // Close the modal
-                    $('#editModal').modal('hide');
-
-                    // Fetch updated task list
-                    fetchTasks();
-                },
-                error: function(error) {
-                    // Handle error response
-                    console.log('Error from update task:', error);
-                }
-            });
-        }
-
-        function deleteTask() {
-            $.ajax({
-                url: '/tasks/' + selectedTaskId,
-                method: 'DELETE',
-                data: {
-                    _token: csrfToken
-                },
-                success: function(response) {
-                    // Handle success response
-                    console.log('Task deleted successfully');
-
-                    // Close the modal
-                    $('#deleteModal').modal('hide');
-
-                    // Fetch updated task list
-                    fetchTasks();
-                },
-                error: function(error) {
-                    // Handle error response
-                    console.log('Error:', error);
-                }
-            });
-        }
-
-        // Bind event listener to update task button in edit modal
-        $('#editModal').on('click', '#update-task', function() {
-            updateTask();
-        });
-
-        // Bind event listener to delete task button in delete modal
-        $('#deleteModal').on('click', '#delete-task', function() {
-            deleteTask();
-        });
-
-        // Bind event listener to create task button
-        $('#create-task').click(function() {
-            createTask();
-        });
-
-        // Fetch tasks on page load
-        $(document).ready(function() {
-            fetchTasks();
-        });
+        var base_url = '{{ url('/') }}';
     </script>
+
+    <script src="{{ asset('js/task_management.js') }}"></script>
 </body>
 
 </html>

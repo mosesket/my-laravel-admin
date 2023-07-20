@@ -15,3 +15,15 @@ body {
     max-height: 100%;
     overflow-y: auto;
 }
+
+.user-avatar {
+    height: 40px; /* Set the desired height of the navbar */
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar img {
+    height: 100%;
+    width: auto;
+    display: block;
+}
