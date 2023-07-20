@@ -1,4 +1,4 @@
-# my-laravel-admin
+# Laravel Bootstrap Ajax Admin System
 
 Using Bootstrap 4 to create a beautiful admin system, ajax and laravel to perform crude operations
 
