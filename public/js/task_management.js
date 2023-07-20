@@ -81,7 +81,7 @@ function fetchTasks() {
                 var row = '<tr>' +
                     '<td>' + task.title + '</td>' +
                     '<td>' + task.description + '</td>' +
-                    '<td>' +
+                    '<td class="d-flex p-2">' +
                     '<button type="button" class="btn btn-primary edit-btn" data-task-id="' + task.id + '" data-toggle="modal" data-target="#editModal">Edit</button>' +
                     '<button type="button" class="btn btn-danger delete-btn" data-task-id="' + task.id + '" data-toggle="modal" data-target="#deleteModal">Delete</button>' +
                     '</td>' +
